@@ -98,6 +98,55 @@ class SinglyLinkedList {
          oldValue.value = value;
          return true;
     }
+    insert(value , index){
+        if(index < 0 || index > this.length){
+            return false;
+        }
+        if(index === this.length ) return this.push(value);
+        let pre = this.get(index - 1);
+        let newNode = new Node(value);
+        let temp = pre.next;
+        pre.next = newNode;
+        newNode.next = temp;
+        this.length++;
+        return this;
+
+    }
+    remove(index){
+        if(index < 0 || index > this.length - 1){
+            return false;
+        }
+        if(index === this.length - 1){
+            return this.pop();
+        }
+        if(index === 0){
+            return list.shift();
+        }
+        let pre = this.get(index - 1);
+        let temp = pre.next;
+        pre.next = temp.next;
+        this.length --; 
+    }
+    reverse(){
+        if(!this.head){
+               return 'Empty List nothing to reverse';
+        }
+        if(this.length === 1){
+              return this.head;
+        }
+        let node = this.head;
+        this.head = this.tail;
+        this.tail = node;         
+        let prev = null;
+        let next;
+        for(let i = 0; i < this.length; i++){
+            next = node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
 }
 
 
@@ -118,4 +167,13 @@ list.traverse();
 console.log(`Element Found : ${list.get(2)}`);
 // set function
 console.log(list.set(10,'lets Go!'));   // will set the passed value in the list
+list.traverse();
+list.insert('shubham',2);
+console.log('after insert---------');
+list.traverse();
+list.remove(3);
+console.log('After remove......');
+list.traverse();
+list.reverse();
+console.log("----- after reverse------");
 list.traverse();
