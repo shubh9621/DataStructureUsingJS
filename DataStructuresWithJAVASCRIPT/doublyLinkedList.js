@@ -86,25 +86,33 @@ class DoublyLinkedList {
           get(index) {                      // get method accept index and get the value of that index
             if(index < 0 || index > this.length - 1) return 'Index not found';  
             let counter = 0;
-            let mid = Math.floor(this.length/2);
-            if(index <= mid){
+            let mid = Math.floor(this.length/2);     // getting the middle index
+            if(index <= mid){                      // IF true start from the head                     
                 let current = this.head;
                 while(counter != index){
                     current = current.next;
                     counter++;
                 }
-                return current.value;
+                return current;
             }
             let counter2 = this.length - 1;
-            if(index > mid) {
+            if(index > mid) {                    // IF true start from the  Tail of the list.
                 let current = this.tail;
                 while(counter2 != index){
                     current = current.prev;
                     counter--;
                 }
-                return current.value;
+                return current;
             }
           }   
+          set(index , value) { 
+            let oldValue = this.get(index);               // replace the value at the passed index
+            if(!oldValue.value){
+                return 'Not found! cannot set value';
+            }
+             oldValue.value = value;
+             return true;
+}
 }
 
 let list = new DoublyLinkedList();
@@ -127,3 +135,6 @@ console.log(list.unShift('people are awesome!'));
 console.log("After Unshift operation");
 list.traverse();
 console.log(`${list.get(5)}`);
+list.set(2,"hello");
+console.log('list after setting value');
+list.traverse();
