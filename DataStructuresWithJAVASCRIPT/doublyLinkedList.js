@@ -49,7 +49,7 @@ class DoublyLinkedList {
                 }
               console.log("\n");                    // for the next line after the loop.
             }
-          shift(){
+          shift(){                                        // remove element at the start of the list
               if(this.length === 0) return 'list not found';
               if(this.length === 1) {
                   this.head = null;
@@ -67,7 +67,7 @@ class DoublyLinkedList {
               }
           return this;
           }
-          unShift(value){
+          unShift(value){                                 // add element at the start of the list
               let newNode = new Node(value);
               if(this.length === 0 || !this.head) {
                          this.head = newNode;
@@ -82,7 +82,29 @@ class DoublyLinkedList {
               }
               this.length++;
               return this;
-          }      
+          }   
+          get(index) {                      // get method accept index and get the value of that index
+            if(index < 0 || index > this.length - 1) return 'Index not found';  
+            let counter = 0;
+            let mid = Math.floor(this.length/2);
+            if(index <= mid){
+                let current = this.head;
+                while(counter != index){
+                    current = current.next;
+                    counter++;
+                }
+                return current.value;
+            }
+            let counter2 = this.length - 1;
+            if(index > mid) {
+                let current = this.tail;
+                while(counter2 != index){
+                    current = current.prev;
+                    counter--;
+                }
+                return current.value;
+            }
+          }   
 }
 
 let list = new DoublyLinkedList();
@@ -90,6 +112,9 @@ list.push(1);
 list.push(2);
 list.push(10);
 list.push(20);
+list.push(900);
+list.push(700);
+list.push(-700);
 list.traverse();
 list.pop();
 console.log("After pop operation");
@@ -101,3 +126,4 @@ list.traverse();
 console.log(list.unShift('people are awesome!'));
 console.log("After Unshift operation");
 list.traverse();
+console.log(`${list.get(5)}`);
