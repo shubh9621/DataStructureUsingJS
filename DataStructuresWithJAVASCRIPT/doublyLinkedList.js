@@ -111,8 +111,28 @@ class DoublyLinkedList {
                 return 'Not found! cannot set value';
             }
              oldValue.value = value;
-             return true;
+             return true;       
 }
+          insert(index , value){ 
+            let prevValue;           // insert element the at the given position
+              if(index > 0){
+              prevValue = this.get(index - 1);
+              }
+              else{
+                 this.unShift(value);
+                 return this;  
+              }
+              if(!prevValue.value) {
+                  return 'Invalid Index';
+                }
+              let newNode = new Node(value);
+              let nextValue = prevValue.next;
+              prevValue.next = newNode;
+              newNode.prev = prevValue;
+              newNode.next = nextValue;
+              nextValue.prev = newNode;
+              this.length++;
+        }
 }
 
 let list = new DoublyLinkedList();
@@ -137,4 +157,7 @@ list.traverse();
 console.log(`${list.get(5)}`);
 list.set(2,"hello");
 console.log('list after setting value');
+list.traverse();
+list.insert(1,"i'm at the 0 position");
+console.log('List after inserting value in the list');
 list.traverse();
