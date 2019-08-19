@@ -133,6 +133,26 @@ class DoublyLinkedList {
               nextValue.prev = newNode;
               this.length++;
         }
+        remove(index){                                          //remove the index at the passed index
+            if(index < 0 && index >= this.length - 1) return 'invalid index!'; 
+            let valueToBeRemoved = this.get(index);
+            if(index > 0 && index <= this.length - 2 && valueToBeRemoved != null){
+                 let previous = valueToBeRemoved.prev;
+                 let nextValue = valueToBeRemoved.next;
+                 previous.next = nextValue;
+                 nextValue.prev = previous;
+                 valueToBeRemoved.next = null;
+                 valueToBeRemoved.prev = null;
+                 valueToBeRemoved.value = null;
+             }
+             else if(index === 0 && valueToBeRemoved != null){
+                 this.shift();
+             }
+             else if(index === this.length - 1){
+                   this.pop();
+             }
+
+        }
 }
 
 let list = new DoublyLinkedList();
@@ -160,4 +180,7 @@ console.log('list after setting value');
 list.traverse();
 list.insert(1,"i'm at the 0 position");
 console.log('List after inserting value in the list');
+list.traverse();
+list.remove(-1);
+console.log('list after remove method');
 list.traverse();
