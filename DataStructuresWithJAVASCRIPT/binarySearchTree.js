@@ -70,6 +70,22 @@ class BinarySearchTree {
             }
         }
     }
+    bfs() { //BFS => Breadth First Search - Use to traverse the whole tree through side  EX:
+        // -->  10
+        // --> 12 13
+        if (!this.root) return 'Empty Tree';
+        let currentNode = this.root,
+            valueQueue = [],
+            data = [];
+        valueQueue.push(currentNode);
+        while (valueQueue.length) {
+            currentNode = valueQueue.shift();
+            data.push(currentNode.value);
+            if (currentNode.left) valueQueue.push(currentNode.left);
+            if (currentNode.right) valueQueue.push(currentNode.right);
+        }
+        return data;
+    }
 }
 
 let tree = new BinarySearchTree();
@@ -82,3 +98,4 @@ tree.insert(6);
 console.log(tree.insert(1));
 console.log('Results : ')
 console.log(tree.find(100));
+console.log(tree.bfs());
