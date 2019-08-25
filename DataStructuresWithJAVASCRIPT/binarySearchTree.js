@@ -46,7 +46,7 @@ class BinarySearchTree {
 
     find(value) { //Takes a value and checks if it is in the tree or not 
         if (!this.root) return 'Empty List'; //Edge Case
-        if (this.root.value === value) return 'Found at root'; //o(1) if value is at the root 
+        if (this.root.value === value) return this.root; //o(1) if value is at the root 
         let current = this.root;
         while (true) {
             if (value < current.value) {
@@ -75,8 +75,8 @@ class BinarySearchTree {
         // --> 12 13
         if (!this.root) return 'Empty Tree';
         let currentNode = this.root,
-            valueQueue = [],
-            data = [];
+            valueQueue = [];
+        const data = [];
         valueQueue.push(currentNode);
         while (valueQueue.length) {
             currentNode = valueQueue.shift();
@@ -84,6 +84,45 @@ class BinarySearchTree {
             if (currentNode.left) valueQueue.push(currentNode.left);
             if (currentNode.right) valueQueue.push(currentNode.right);
         }
+        return data;
+    }
+    dfsPreOrder() { //DFS Pre-order implementation  " ROOT , LEFT ,RIGHT"
+        if (!this.root) return 'Empty Tree';
+        let data = [],
+            current = this.root;
+        // helper function to traverse the tree
+        function traverse(node) {
+            data.push(node.value); //Root
+            if (node.left) traverse(node.left); //left
+            if (node.right) traverse(node.right); //right
+        }
+        traverse(current);
+        return data;
+    }
+    dfsPostOrder() { // "LEFT, RIGHT , ROOT"
+        if (!this.root) return 'Empty Tree';
+        let data = [],
+            current = this.root;
+        // helper function to traverse through recursion 
+        function traverse(node) {
+            if (node.left) traverse(node.left); //left
+            if (node.right) traverse(node.right); //right
+            data.push(node.value); //root
+        }
+        traverse(current);
+        return data;
+    }
+    dfsInOrder() { //"LEFT ROOT RIGHT" return value in sorted order .
+        if (!this.root) return 'Empty Tree';
+        let data = [],
+            current = this.root;
+
+        function traverse(node) {
+            if (node.left) traverse(node.left); //left
+            data.push(node.value); //root
+            if (node.right) traverse(node.right); //right
+        }
+        traverse(current);
         return data;
     }
 }
@@ -98,4 +137,7 @@ tree.insert(6);
 console.log(tree.insert(1));
 console.log('Results : ')
 console.log(tree.find(100));
-console.log(tree.bfs());
+console.log(`Breadth Fist Search : ${tree.bfs()}`);
+console.log(`DFS PRE ORDER : ${tree.dfsPreOrder()}`);
+console.log(`DFS POST ORDER : ${tree.dfsPostOrder()}`);
+console.log(`DFS IN ORDER : ${tree.dfsInOrder()}`);
