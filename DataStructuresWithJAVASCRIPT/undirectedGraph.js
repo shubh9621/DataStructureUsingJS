@@ -1,6 +1,7 @@
 class UndirectedGraph {
     constructor() {
             this.list = {};
+            this.vistedVertices = {};
         }
         //add new vertex in the graph.
     addVertex = (value) => {
@@ -32,14 +33,31 @@ class UndirectedGraph {
         }
         //Remove the whole vertex and all its references.
     removeVertex = (vertex) => {
-        if (!this.list[vertex]) {
-            return false;
+            if (!this.list[vertex]) {
+                return false;
+            }
+            for (let v of this.list[vertex]) {
+                this.removeEdge(vertex, v);
+            }
+            delete this.list[vertex];
+            console.log(this.list);
         }
+        //Traverse through the graph using DFS and mark down the already visited vertices in one object.
+    dfsGraphTraversal = (vertex) => {
+        //Base case.
+        if (!this.list[vertex]) return undefined;
+        //Set vertex equals to visited.
+        this.vistedVertices[vertex] = true;
+        //looping throught all of its neighbors.
         for (let v of this.list[vertex]) {
-            this.removeEdge(vertex, v);
+            //checking if vertex is visited or not 
+            if (this.vistedVertices[v] !== true) {
+                //recursive call for next not visited neighbor.
+                this.dfsGraphTraversal(v);
+            }
         }
-        delete this.list[vertex];
-        console.log(this.list);
+        //return all the visited vertices.
+        return this.vistedVertices;
     }
 
 }
@@ -48,6 +66,8 @@ let graph = new UndirectedGraph();
 graph.addVertex('Kondapur');
 graph.addVertex('Gachibowli');
 graph.addEdge('Kothaguda', 'Gachibowli');
+graph.addEdge('Tolichowki', 'Kothaguda');
 console.log(graph.addEdge('Kondapur', 'Gachibowli'));
 //console.log(graph.removeEdge('Kothaguda', 'Gachibowli'));
-graph.removeVertex('Kondapur');
+// graph.removeVertex('Kondapur');
+console.log(graph.dfsGraphTraversal('Kothaguda'));
