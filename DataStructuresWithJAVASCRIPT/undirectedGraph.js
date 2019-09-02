@@ -44,20 +44,44 @@ class UndirectedGraph {
         }
         //Traverse through the graph using DFS and mark down the already visited vertices in one object.
     dfsGraphTraversal = (vertex) => {
-        //Base case.
+            //Base case.
+            if (!this.list[vertex]) return undefined;
+            //Set vertex equals to visited.
+            this.vistedVertices[vertex] = true;
+            //looping throught all of its neighbors.
+            for (let v of this.list[vertex]) {
+                //checking if vertex is visited or not 
+                if (this.vistedVertices[v] !== true) {
+                    //recursive call for next not visited neighbor.
+                    this.dfsGraphTraversal(v);
+                }
+            }
+            //return all the visited vertices.
+            return this.vistedVertices;
+        }
+        //Graph traversal using BFS.
+    bfsGraphTraversal = (vertex) => {
+        let queue = [];
+        //store the visited ones.
+        let visited = {}
+            //Base case.
         if (!this.list[vertex]) return undefined;
-        //Set vertex equals to visited.
-        this.vistedVertices[vertex] = true;
-        //looping throught all of its neighbors.
-        for (let v of this.list[vertex]) {
-            //checking if vertex is visited or not 
-            if (this.vistedVertices[v] !== true) {
-                //recursive call for next not visited neighbor.
-                this.dfsGraphTraversal(v);
+        //pushing the current postion in the queue.
+        queue.push(vertex);
+        //set the vertex equals to visited.
+        visited[vertex] = true;
+        //Go through the queue while queue has length.
+        while (queue.length) {
+            let current = queue.shift();
+            //visit all the neighbors of the current vertex.
+            for (let v of this.list[current]) {
+                if (!visited[v]) {
+                    visited[v] = true;
+                    queue.push(v);
+                }
             }
         }
-        //return all the visited vertices.
-        return this.vistedVertices;
+        return visited;
     }
 
 }
@@ -71,3 +95,4 @@ console.log(graph.addEdge('Kondapur', 'Gachibowli'));
 //console.log(graph.removeEdge('Kothaguda', 'Gachibowli'));
 // graph.removeVertex('Kondapur');
 console.log(graph.dfsGraphTraversal('Kothaguda'));
+console.log(graph.bfsGraphTraversal('Kothaguda'));
